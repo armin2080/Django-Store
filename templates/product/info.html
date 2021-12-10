@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{% static 'css/menubar.css'%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{{ info.0 }}</title>
+    
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+      </head>
+
+  <body style="background-image: url('/static/img/background.png');background-repeat: no-repeat;background-size: cover; color: white;">
+    <div class="topnav">
+      <a href="{% url 'dashboard' %}">Home <i class="fa fa-home"></i></a>
+      {% if log == True %}
+        <a href="{% url 'logout'%}">logout <i class="fas fa-sign-out-alt"></i></a>
+      {% else %}
+        <a href="{% url 'login' %}">login <i class="fas fa-sign-in-alt"></i></a>
+      {% endif %}
+      {% if log == True %}
+        <a href="{% url 'cart' %}" >cart <i class="fa fa-shopping-basket" ></i></a>
+        <a href="{% url 'listFactors' %}">Factors <i class="fa fa-history"></i></a>
+      {% endif %}
+      <a href="{% url 'categories' %}">Categories <i class="fa fa-list-alt"></i></a>
+      <a href="#" class="active">{{ info.0 }} <i class="fas fa-info-circle"></i></a>
+    </div>
+    <div class="section-center">
+      <section>
+        <div class="row">
+          <div class="col1" >
+            <img src="{{ info.5 }}" alt="{{ info.0 }}" >
+          </div>
+          <div class="col2">
+          <h1>{{ info.0 }}</h1>
+          <p style="text-align: right;">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed aspernatur architecto repudiandae laboriosam porro
+            asperiores nobis dolores? Consequuntur exercitationem impedit ipsa minima cum ex recusandae temporibus, asperiores,
+            sapiente, cumque commodi!
+          </p>
+          <p style="text-align:right;">
+            قیمت : {{ info.1 }} تومان <br> تعداد: {{ info.2 }}
+          </p>
+          <br />
+          
+          </div>
+        </div>
+        
+        </section>
+        <a href="{% url 'add_to_cart' info.4 %}"><button class="button">add to cart <i class="fa fa-shopping-basket" ></i></button></a> <br><br>                 
+          
+      </div>
+      
+          
+  </body>
+</html>

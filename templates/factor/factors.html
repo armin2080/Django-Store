@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factors</title>
+    <link rel="stylesheet" href="{% static 'css/menubar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap_table.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main_table.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body style="background-image: url('/static/img/background.png');background-repeat: no-repeat;background-size: cover; color: white;">
+    <div class="topnav">
+        <a href="{% url 'dashboard' %}" >Home <i class="fa fa-home"></i></a>
+        <a href="{% url 'logout'%}" >logout <i class="fas fa-sign-out-alt"></i></a> 
+        <a href="{% url 'cart' %}" >cart <i class="fa fa-shopping-basket" ></i></a>
+        <a href="{% url 'listFactors' %}" class="active" >Factors <i class="fa fa-history"></i></a>
+        <a href="{% url 'categories' %}" >Categories <i class="fa fa-list-alt"></i></a>
+    </div>
+    <br>
+    <div class="limiter" style="margin-left:auto; margin-right: auto;">
+		<div class="container-table100" style="background:none; text-align: right;">
+			<div class="wrap-table100">
+				<h1 style="text-align: center;">لیست فاکتور ها</h1><br>
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1" style="text-align: right; background-color: #050A30;">جزئیات      </th>
+									<th class="cell100 column2" style="text-align: right; background-color: #050A30;">تاریخ ایجاد</th>
+									<th class="cell100 column3" style="text-align: right; background-color: #050A30;">وضعیت پرداخت</th>
+									<th class="cell100 column4" style="text-align: right; background-color: #050A30;">قیمت</th>
+                                    <th class="cell100 column5" style="text-align: right; background-color: #050A30;">شناسه فاکتور</th>
+                                    
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                                {% for f in factors %}
+								<tr class="row100 body">
+									<td class="cell100 column1"> 
+										{% if f.2 == 1 %}
+										<a href="{% url 'delete_factor' f.5 %}" ><button class="button"><i class="fa fa-trash mb-1 text-danger"></i></button></a>
+										{% endif %}
+										<span ></span><a href="{% url 'get_factor' f.5 %}"><button class="button">نمایش جزئیات</button></a></td>
+									<td class="cell100 column2">{{ f.3 }}</td>
+                                    {% if f.2 == 3 %}
+									    <td class="cell100 column3">پرداخت شده</td>
+                                    {% elif f.2 == 1 %}
+                                    <td class="cell100 column3">پرداخت نشده</td>
+                                    {% endif %}
+									<td class="cell100 column4">{{ f.4 }}</td>
+									<td class="cell100 column5">{{ f.5 }}</td>
+                                    
+								</tr>
+                                {% endfor %}
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+    
+</body>
+</html>

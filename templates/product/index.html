@@ -1,0 +1,198 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+	<link rel="stylesheet" href="{% static 'css/product_card.css' %}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title> محصولات</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="{% static 'js/preloader.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/menubar.css'%}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<body style=" text-align: center; background-image: url('/static/img/background.png');background-repeat: no-repeat;background-size: 100%; background-attachment: fixed; color: white;">
+    <div class="topnav"  >
+        <a href="{% url 'dashboard' %}" >Home <i class="fa fa-home"></i></a>
+        <a href="{% url 'logout'%}">logout <i class="fas fa-sign-out-alt"></i></a>		
+    	<a href="{% url 'product' %}" class="active" >products <i class="fa fa-product-hunt"></i></a>		
+    	<a href="{% url 'cart' %}" >cart <i class="fa fa-shopping-basket" ></i></a>
+    	<a href="{% url 'listFactors' %}">Factors <i class="fa fa-history"></i></a>
+		
+        <a href="{% url 'categories' %}">Categories <i class="fa fa-list-alt"></i></a>
+    </div>
+	
+    <form  method="post" style="margin-top: 5%;" >
+        {% csrf_token %}
+        <p>
+            <label for="name_product">
+                <input id="name_product" placeholder="نام محصول" name="name_product" style="text-align: center; font-size: x-large;">
+            </label>
+        </p>
+        <p>
+            <label for="price_product">
+                <input id="price_product" placeholder="قیمت محصول" name="price_product" style="text-align: center;font-size: x-large;">
+            </label>
+        </p>
+        <p>
+            <label for="count_product">
+                <input id="count_product" placeholder="تعداد محصول" name="count_product" style="text-align: center;font-size: x-large;">
+            </label>
+        </p>
+        <p>
+            <label for="category_product" style="text-align: right; font-size: xx-large;"> دسته بندی :</label>
+                <select name="category_product" id="category_product" onchange="updateSubCategories()" style="color: #161F6D; box-shadow: white; border-style: dashed; border-spacing: 200px; font-size: x-large;">
+                    {% for c in categories %}
+                        <option value="{{ c.0 }}" style="text-align: right;"> {{ c.1 }}</option>
+                    {% endfor %}
+                </select>
+        
+        </p>
+        <p id="sub_cat">
+            <label for="subcategory_product" style="font-size: x-large;">زیر دسته بندی محصول :</label>
+            <select name="subcategory_product" id="subcategory_product" style="font-size: x-large;">
+                <option value="None"> هیچ دسته بندی وجود ندارد</option>
+            </select>
+
+        </p>
+        <p>
+            <input class="button" type="button" value="درج محصول" onclick="addProduct()" >
+        </p>
+    </form>
+<hr style="border: 1px double white; border-radius: 5px;">
+<div >
+    {% for i in list %}
+    <div class="wrapper" style="display: inline-block;">
+		<div class="container">
+		  <div class="top" style="background-image: url('{{ i.5 }}');"></div>
+		  <div class="bottom">
+			<div class="left">
+                <a href="{% url 'delete_product' i.4 %}" ></span ><div class="buy" style="float: left; width: 49%; color: red; font-size: xx-large;">حذف</div></a>
+                <a href="{% url 'edit_product' i.4 %}"><div class="buy" style="font-size: xx-large;">ویرایش</div></a>
+			</div>
+			
+		  </div>
+		</div>
+		<div class="inside">
+		  <div class="icon"><i style=" text-align: right; margin-left: 20%;" class="material-icons">اطلاعات</i></div>
+		  <div class="contents">
+			<table style="text-align: right;">
+			  <tr>
+				<th>: نام محصول </th>
+			  </tr>
+			  <tr style="height: 50px;">
+				<td style="text-align: left;">{{ i.0 }}</td>
+			  </tr>
+			  
+			  <tr>
+				<th>: دسته بندی</th>
+			  </tr>
+			  <tr style="height: 50px;">
+				<td style="text-align: left;">{{ i.3 }}</td>
+			  </tr>
+			  <tr>
+				<th>: قیمت </th>
+			  </tr>
+			  <tr>
+				<td style="text-align: left;">تومان {{ i.2 }}</td>
+			  </tr>
+			</table>
+		  </div>
+		</div>
+	  </div>
+            
+    {% endfor %}
+</div>
+<br>
+<br><br><br><br>
+
+<script>
+    let sub_cat = document.getElementById("sub_cat");
+    sub_cat.style.display = "None";
+    function addProduct() {
+        let name_product = document.getElementById("name_product").value;
+        alert("done")
+        let price_product = document.getElementById("price_product").value;
+        let count_product = document.getElementById("count_product").value;
+        let subcategory_product = document.getElementById("subcategory_product").value;
+        console.log(name_product,price_product,count_product,subcategory_product);
+        const csrftoken = getCookie('csrftoken');
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "{% url 'add_product' %}", true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = function() {
+            
+            if (this.readyState == 4 && this.status == 200) {
+                // Response
+                var response = this.responseText;
+                console.log(response);
+                location.reload();
+
+            }
+        };
+        let d = { "test": 1 , "csrftoken": csrftoken};
+        // {#xhttp.send(JSON.stringify(d));#}
+        xhttp.send(
+            "name_product=" + name_product +
+            "&price_product=" + price_product +
+            "&count_product=" + count_product +
+            "&subcategory_product=" + subcategory_product +
+            "&csrfmiddlewaretoken="+csrftoken
+        );
+    }
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    function updateSubCategories(){
+        let category_product = document.getElementById("category_product").value;
+        console.log(category_product);
+        const csrftoken = getCookie('csrftoken');
+        $.post("{% url 'get_subcategories' %}",
+              {
+                category_product: category_product,
+                csrfmiddlewaretoken: csrftoken
+              },
+              function(data, status){
+                    sub_cat.style.display = "block";
+
+                    function myFunction(item, index, arr) {
+                      console.log(arr[index].id,arr[index].name);
+                      var node = document.createElement("option"); // Create a <li> node
+                      var textnode = document.createTextNode(arr[index].name); // Create a text node
+                      node.appendChild(textnode);
+                      node.value = arr[index].id;
+                      let subcategory_product = document.getElementById("subcategory_product")
+                      subcategory_product.appendChild(node);
+                    }
+                  data.forEach(myFunction)
+
+                }
+        );
+    }
+
+</script>
+
+</body>
+</html>

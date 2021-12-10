@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/product_card.css' %}">
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <title>دسته بندی</title>
+      <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous"
+      />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+      <script src="{% static 'js/preloader.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'css/menubar.css'%}">
+  </head>
+  
+<body style="background-image: url('/static/img/background.png');background-repeat: no-repeat;background-size: cover; color: white;" >
+  <div class="topnav"  >
+    <a href="{% url 'dashboard' %}">Home <i class="fa fa-home"></i></a>
+      {% if log == True %}
+        <a href="{% url 'logout'%}">Logout <i class="fas fa-sign-out-alt"></i></a>
+      {% else %}
+        <a href="{% url 'login' %}">Login <i class="fas fa-sign-in-alt"></i></a>
+      {% endif %}
+      {% if log == True %}
+        <a href="{% url 'cart' %}" >Cart <i class="fa fa-shopping-basket" ></i></a>
+        <a href="{% url 'listFactors' %}">Factors <i class="fa fa-history"></i></a>
+      {% endif %}
+    <a href="{% url 'categories' %}" class="active">Categories <i class="fa fa-list-alt"></i></a>
+</div>
+<br>
+
+      <h1 style="text-align: center;">دسته بندی محصولات</h1>
+    {% for c in categories %}
+    <div class="wrapper" style="display: inline-block; width: 23%;">
+		<div class="container">
+		  <div class="top" style="background-image: url('{{ c.3 }}');"></div>
+		  <div class="bottom">
+			<div class="left">
+			  <div class="buy" style="float: center; width: 100%;"><i style="font-size:25px;" class="material-icons">{{ c.1 }}</i></div>
+
+			</div>
+			
+		  </div>
+		</div>
+		<div class="inside">
+		  <div class="icon"><i style=" text-align: right; margin-left: 20%;" class="material-icons">زیرگروه</i></div>
+		  <div class="contents" style="text-align: center;">
+          {% for s in c.2 %}
+          <a href="{% url 'sub_products' s.1 %}"><button class="button" style="font-size: x-large;" >{{ s.0 }}</button></a><br><br><br>
+          {% endfor %}
+		  </div>
+		</div>
+	  </div>
+    
+    {% endfor %}
+    
+</body>
+</html>

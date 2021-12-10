@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Factors</title>
+        <link rel="stylesheet" href="{% static 'css/menubar.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap_table.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main_table.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+<body style="background-image: url('/static/img/background.png');background-repeat: no-repeat;background-size: cover; color: white;">
+    <div class="topnav">
+        <a href="{% url 'dashboard' %}">Home <i class="fa fa-home"></i></a>
+        <a href="{% url 'logout'%}">Logout <i class="fas fa-sign-out-alt"></i></a> 
+        <a href="{% url 'cart' %}">Cart <i class="fa fa-shopping-basket" ></i></a>
+        <a href="{% url 'listFactors' %}">Factors <i class="fa fa-history"></i></a>
+        <a href="{% url 'categories' %}">Categories <i class="fa fa-list-alt"></i></a>
+        <a href="#" class="active"> Factor </a>
+    </div>
+    <br>
+    <div class="limiter" style="margin-left:auto; margin-right: auto;">
+		<div class="container-table100" style="background:none; text-align: right;">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1" style="text-align: right; background-color: #050A30;"> جزئیات محصول </th>
+									<th class="cell100 column2" style="text-align: right; background-color: #050A30;">قیمت نهایی محصول</th>
+									<th class="cell100 column3" style="text-align: right; background-color: #050A30;">قیمت محصول</th>
+									<th class="cell100 column4" style="text-align: right; background-color: #050A30;">تعداد محصول</th>
+                                    <th class="cell100 column5" style="text-align: right; background-color: #050A30;">نام محصول</th>
+                                    
+								</tr>
+							</thead>
+						</table>
+					</div>
+                    <div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                                {% for p in fp %}
+								<tr class="row100 body">
+									<td class="cell100 column1"> <a href="{% url 'get_product' p.3 %}"><button class="button">نمایش جزئیات</button></a></td>
+									<td class="cell100 column2">{{ p.2 }}</td>                                    
+									<td class="cell100 column3">{{ p.4 }}</td>
+									<td class="cell100 column4">{{ p.1 }}</td>
+									<td class="cell100 column5">{{ p.0 }}</td>
+                                </tr>
+                                {% endfor %}
+							</tbody>
+						</table>
+					</div>
+                </div><br><br>
+                <p style="text-align: center;">
+                {% if f.2 == 1 %}
+                    <a href="{% url 'purchase' f.5 %}"><button class="button ">پرداخت</button></a>
+                {% endif %}
+                </p>    
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+</body>
+</html>

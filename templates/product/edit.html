@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرایش</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/menubar.css'%}">
+</head>
+<body style=" text-align: center; background-image: url('/static/img/background.png');background-repeat: no-repeat;background-size: 100%; background-attachment: fixed; color: white;">
+    <div class="topnav"  >
+        <a href="{% url 'dashboard' %}" >Home <i class="fa fa-home"></i></a>
+        <a href="{% url 'logout'%}">logout <i class="fas fa-sign-out-alt"></i></a>
+				
+    	<a href="{% url 'product' %}"  >products <i class="fa fa-product-hunt"></i> </a>		
+    	<a href="{% url 'cart' %}" >cart <i class="fa fa-shopping-basket" ></i></a>
+    	<a href="{% url 'listFactors' %}">Factors <i class="fa fa-history"></i></a>
+        <a href="{% url 'categories' %}">Categories <i class="fa fa-list-alt"></i></a>
+        <a href="#" class="active">Edit</a>
+    </div>
+    {% for i in list %}
+    <form action="{% url 'edit_product' i.4 %}" method="post" style="margin-top: 15%;">
+        {% csrf_token %}
+        <p>
+            <label for="name_product">
+                <input style="text-align: center;" id="name_product" placeholder="نام محصول" name="name_product" value="{{ i.0 }}">
+            </label>
+        </p>
+        <p>
+            <label for="count_product">
+                <input style="text-align: center;" id="count_product" placeholder="تعداد محصول" name="count_product" value="{{ i.1 }}">
+            </label>
+        </p>
+        <p>
+            <label for="price_product">
+                <input style="text-align: center;" id="price_product" placeholder="قیمت محصول" name="price_product" value="{{ i.2 }}">
+            </label>
+        </p>
+        <p>
+            <label for="category_product">
+                <input style="text-align: center;" id="category_product" placeholder="دسته یندی محصول" name="category_product" value="{{ i.3 }}">
+            </label>
+        </p>
+        <p>
+            <button type="submit" class="button"> ویرایش محصول</button>
+        </p>
+    </form>
+    
+    {% endfor %}
+
+    
+</body>
+</html>
