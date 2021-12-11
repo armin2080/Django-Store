@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'account',
     'products',
     'cart',
-    'bank_partner',
     'factor',
 ]
 
