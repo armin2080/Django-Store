@@ -18,3 +18,6 @@ to run this project:
 - install Django (pip install django) .
 - install Pillow (pip install pillow).
 
+
+![homepage](https://user-images.githubusercontent.com/78423228/145668376-e8cd352e-0223-47a9-b45e-e50e0303120c.jpg)
+
